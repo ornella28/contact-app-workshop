@@ -1,13 +1,16 @@
 package se.lexicon.data;
 
 import se.lexicon.exception.ContactStorageEsception;
+import se.lexicon.exception.DuplicateContactException;
 import se.lexicon.model.Contact;
 
 import javax.imageio.IIOException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +70,23 @@ public class FileContactDAOImpl implements ContactDAO{
 
     //Override method to save contact to file
     @Override
+    public  void save (Contact contact) throws ContactStorageEsception, DuplicateContactException {
+        if (contact == null){
+            throw new IllegalArgumentException("Contact cannot be null");
+        }
+
+        // check for duplicate contact by name
+        if (findByName(contact.getName()) != null){// if contact with same name exists
+            throw new DuplicateContactException("Contact with name " + contact.getName() + " already exists");
+
+        }
+        try(BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.APPEND)) {//create buffered writer to write file in append mode
+            writer.write(contact.getName() + ", " + contact.getPhoneNumber());// write contact in file
+            writer.newLine();// write contact to file
+        }catch (IOException e){
+            throw new ContactStorageEsception("Error saving contact to file: " + e.getMessage());
+        }
+    }
 
 
 
