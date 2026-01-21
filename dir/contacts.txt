@@ -1,0 +1,10 @@
+Anna Andersson;0701234567
+Erik Svensson;0723456789
+Maria Johansson;0734567890
+Johan Karlsson;0767890123
+Elin Nilsson;0790123456
+Lars Pettersson;0709876543
+Sara Lindberg;0721112233
+Oskar Holm;0732223344
+Emma Bergström;0763334455
+Niklas Persson;0794445566
