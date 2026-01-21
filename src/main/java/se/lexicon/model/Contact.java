@@ -2,6 +2,7 @@ package se.lexicon.model;
 
 public class Contact {
 
+
     private static final String Phone_REGEX = "^\\d{10}$";
 
     private String name;
@@ -9,8 +10,8 @@ public class Contact {
 
     // Constructor
     public Contact(String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
+        setName(name);// using setter to utilize validation
+        setPhoneNumber(phoneNumber);
     }
 
     //Getters and setters
@@ -32,12 +33,19 @@ public class Contact {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber == null){
+        if (phoneNumber == null|| !phoneNumber.matches(Phone_REGEX)){
             throw new IllegalArgumentException("Phone number cannot be null");
         }
         this.phoneNumber = phoneNumber.trim();
     }
 
-    //override method
+    //Override method
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 
 }
