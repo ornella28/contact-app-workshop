@@ -52,8 +52,22 @@ public class FileContactDAOImpl implements ContactDAO{
     //override method to find contact by name
     @Override
     public Contact findByName(String name) throws ContactStorageEsception {
+        if (name == null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        for (Contact contact : findAll()){// iterate through all contacts
+            if (contact.getName().equalsIgnoreCase(name.trim())){// check if name matches
+                return contact;// return contact if found
+            }
+
+        }
+        return null;// return null if not found
 
     }
+
+    //Override method to save contact to file
+    @Override
+
 
 
 
