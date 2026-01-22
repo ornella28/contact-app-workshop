@@ -1,6 +1,7 @@
 package se.lexicon.data;
 
 import se.lexicon.exception.ContactStorageEsception;
+import se.lexicon.exception.DuplicateContactException;
 import se.lexicon.model.Contact;
 
 import java.nio.file.Files;
@@ -57,6 +58,31 @@ public class Main {
         } catch (ContactStorageEsception e) {
             System.err.println("Error finding contact: " + e.getMessage());
         }
+
+        //test save contact
+        try{
+            Contact newContact = new Contact("Ange Ornella", "0701234567");
+            dao.save(newContact);
+            System.out.println("-----Save new contact-----");
+            System.out.println("Contact saved: " + newContact);
+        } catch (DuplicateContactException e){
+            System.err.println("Duplicate contact: " + e.getMessage());
+        } catch (ContactStorageEsception e){
+            System.err.println("Error saving contact: " + e.getMessage());
+        }
+
+        try{
+            Contact duplicate = new Contact("Ange Ornella", "0701234567");
+            dao.save(duplicate);
+            System.out.println("-----Save duplicate contact-----");
+            System.out.println("Contact saved: " + duplicate);
+        } catch (DuplicateContactException e){
+            System.err.println("Duplicate contact: " + e.getMessage());
+        } catch (ContactStorageEsception e){
+            System.err.println("Error saving contact: " + e.getMessage());
+        }
+
+
     }
 
 
