@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileContactDAOImpl implements ContactDAO{
-    private final Path filePath = Path.of("dir/contacts.txt");// this is the path to the file where contacts will be stored
+    private final Path filePath = Path.of("contacts.txt");// this is the path to the file where contacts will be stored
+
 
 
 
@@ -29,9 +30,9 @@ public class FileContactDAOImpl implements ContactDAO{
             String line;// variable to store each line
             while((line = reader.readLine()) != null){// read each line until end of file
                 line = line.trim();//trim whitespace
-                if(!line.isEmpty())
-                    continue;
-                    String [] parts = line.split(",");// split contact line by comma
+                if(line.isEmpty()) continue;
+
+                    String [] parts = line.split(";");// split contact line by comma
                     if(parts.length != 2){// check if line has two parts
                         throw new ContactStorageEsception("Invalid contact format in file: " + line);
 
@@ -80,8 +81,8 @@ public class FileContactDAOImpl implements ContactDAO{
             throw new DuplicateContactException("Contact with name " + contact.getName() + " already exists");
 
         }
-        try(BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.APPEND)) {//create buffered writer to write file in append mode
-            writer.write(contact.getName() + ", " + contact.getPhoneNumber());// write contact in file
+        try(BufferedWriter writer = Files.newBufferedWriter(filePath, StandardOpenOption.CREATE,StandardOpenOption.APPEND)) {//create buffered writer to write file in append mode
+            writer.write(contact.getName() + "; " + contact.getPhoneNumber());// write contact in file
             writer.newLine();// write contact to file
         }catch (IOException e){
             throw new ContactStorageEsception("Error saving contact to file: " + e.getMessage());
