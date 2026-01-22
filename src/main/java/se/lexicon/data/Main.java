@@ -14,7 +14,7 @@ public class Main {
 
 
         System.out.println("List of contacts: " + Path.of("contacts.txt").toAbsolutePath());//print absolute path of contacts file
-        System.out.println("Exists?" + Files.exists(Path.of("contacts.txt")));//check if file exists
+
 
         ContactDAO dao = new FileContactDAOImpl();//Using FileContactDAOImpl
 
@@ -29,5 +29,36 @@ public class Main {
             System.err.println("Error reading contacts: " + e.getMessage());
             return;
         }
+
+        //test find contact by name
+        try {
+            String searchName = "Alice";
+            Contact foundContact = dao.findByName(searchName);
+
+            System.out.println("----------Find by name----------");
+            if (foundContact != null) {
+                System.out.println("Contact found: " + foundContact);
+            } else {
+                System.out.println("Contact with name " + searchName + " not found.");
+            }
+        } catch (ContactStorageEsception e) {
+            System.err.println("Error finding contact: " + e.getMessage());
+        }
+        try {
+            String searchName = "Anna Andersson";
+            Contact foundContact = dao.findByName(searchName);
+
+            System.out.println("----------Find by name----------");
+            if (foundContact != null) {
+                System.out.println("Contact found: " + foundContact);
+            } else {
+                System.out.println("Contact with name " + searchName + " not found.");
+            }
+        } catch (ContactStorageEsception e) {
+            System.err.println("Error finding contact: " + e.getMessage());
+        }
     }
+
+
+
 }
